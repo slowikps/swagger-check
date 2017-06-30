@@ -10,7 +10,7 @@ class BooleanDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       val node = TestNode(boolean = Some(true))
       val schema = mock[Schema]
 
-      val definition = BooleanDefinition
+      val definition = BooleanDefinition(false)
 
       definition.validate(schema, path, node)  mustBe ValidationSuccess
     }
@@ -20,7 +20,7 @@ class BooleanDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       val node = TestNode()
       val schema = mock[Schema]
 
-      val definition = BooleanDefinition
+      val definition = BooleanDefinition(false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 

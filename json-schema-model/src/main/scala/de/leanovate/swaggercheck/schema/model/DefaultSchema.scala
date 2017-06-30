@@ -6,10 +6,12 @@ import de.leanovate.swaggercheck.schema.model.formats.{IntegerFormats, NumberFor
 case class DefaultSchema(
                           root: Definition,
                           definitions: Map[String, Definition],
+                          parameters: Map[String, Parameter],
                           stringFormats: Map[String, ValueFormat[String]] = StringFormats.defaultFormats,
                           integerFormats: Map[String, ValueFormat[BigInt]] = IntegerFormats.defaultFormats,
                           numberFormats: Map[String, ValueFormat[BigDecimal]] = NumberFormats.defaultFormats
                         ) extends Schema {
+
   override def findByRef(ref: String): Option[Definition] = {
     val simpleRef = if (ref.startsWith("#/definitions/")) ref.substring(14) else ref
 
@@ -66,13 +68,15 @@ object DefaultSchema {
              required: Option[Set[String]],
              ref: Option[String],
              uniqueItems: Option[Boolean],
-             definitions: Option[Map[String, Definition]]
+             definitions: Option[Map[String, Definition]],
+             parameters: Option[Map[String, Parameter]]
            ): DefaultSchema = {
     DefaultSchema(
       Definition.build(schemaType, allOf, enum, exclusiveMinimum, exclusiveMaximum, format, items, minItems, maxItems,
         minimum, maximum, minLength, maxLength, oneOf, pattern, properties, additionalProperties, required, ref,
-        uniqueItems),
-      definitions.getOrElse(Map.empty)
+        uniqueItems, Some(false)),
+      definitions.getOrElse(Map.empty),
+      parameters.getOrElse(Map.empty)
     )
   }
 }

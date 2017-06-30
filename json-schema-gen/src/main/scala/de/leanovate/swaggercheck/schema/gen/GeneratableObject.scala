@@ -2,7 +2,7 @@ package de.leanovate.swaggercheck.schema.gen
 
 import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
 import de.leanovate.swaggercheck.schema.gen.GeneratableDefinition._
-import de.leanovate.swaggercheck.schema.model.{JsonPath, ObjectDefinition, Schema, ValidationResult}
+import de.leanovate.swaggercheck.schema.model._
 import de.leanovate.swaggercheck.shrinkable.{CheckJsNull, CheckJsObject, CheckJsValue}
 import org.scalacheck.Gen
 
@@ -20,7 +20,7 @@ case class GeneratableObject(
       schema.arbitraryObj
     else {
       val propertyGens: Traversable[Gen[(String, CheckJsValue)]] = definition.properties.map(_.map {
-        case (name, fieldDefinition) if definition.required.exists(_.contains(name)) =>
+        case (name, fieldDefinition: Definition) if definition.required.exists(_.contains(name)) =>
           fieldDefinition.generate(schema.childContext).map(value => name -> value)
         case (name, fieldDefinition) =>
           Gen.oneOf(

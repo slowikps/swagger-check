@@ -5,7 +5,7 @@ import de.leanovate.swaggercheck.schema.model.{BooleanDefinition, JsonPath, Sche
 import de.leanovate.swaggercheck.shrinkable.{CheckJsBoolean, CheckJsValue}
 import org.scalacheck.Gen
 
-case object GeneratableBoolean extends GeneratableDefinition {
+case class GeneratableBoolean(readOnly: Boolean) extends GeneratableDefinition {
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult =
     BooleanDefinition.validate(schema, path, node)

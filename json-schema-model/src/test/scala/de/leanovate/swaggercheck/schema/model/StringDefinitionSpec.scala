@@ -12,7 +12,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("totally unimportant"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, None, None, None)
+      val definition = StringDefinition(None, None, None, None, None, false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
     }
@@ -26,7 +26,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       when(schema.findStringFormat("theformat")).thenReturn(Some(format))
       when(format.validate(path, "some string")).thenReturn(ValidationResult.success)
 
-      val definition = StringDefinition(Some("theformat"), None, None, None, None)
+      val definition = StringDefinition(Some("theformat"), None, None, None, None, false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
 
@@ -39,7 +39,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("1234567890"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, Some(11), None, None, None)
+      val definition = StringDefinition(None, Some(11), None, None, None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -52,7 +52,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("1234567890"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, Some(9), None, None)
+      val definition = StringDefinition(None, None, Some(9), None, None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -65,7 +65,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("298de822-4f5a-40ca-99fd-58b105408f9e"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, None, Some("[0-9a-f]{8}(\\-[0-9a-f]{4}){3}\\-[0-9a-f]{12}"), None)
+      val definition = StringDefinition(None, None, None, Some("[0-9a-f]{8}(\\-[0-9a-f]{4}){3}\\-[0-9a-f]{12}"), None, false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
     }
@@ -75,7 +75,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("totally unimportant"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, None, Some("[0-9a-f]{8}(\\-[0-9a-f]{4}){3}\\-[0-9a-f]{12}"), None)
+      val definition = StringDefinition(None, None, None, Some("[0-9a-f]{8}(\\-[0-9a-f]{4}){3}\\-[0-9a-f]{12}"), None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -88,7 +88,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("enum2"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, None, None, Some("enum1" :: "enum2":: "enum3" :: Nil))
+      val definition = StringDefinition(None, None, None, None, Some("enum1" :: "enum2":: "enum3" :: Nil), false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
     }
@@ -98,7 +98,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode(string = Some("totally unimportant"))
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, None, None, Some("enum1" :: "enum2":: "enum3" :: Nil))
+      val definition = StringDefinition(None, None, None, None, Some("enum1" :: "enum2":: "enum3" :: Nil), false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -111,7 +111,7 @@ class StringDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers 
       val node = TestNode()
       val schema = mock[Schema]
 
-      val definition = StringDefinition(None, None, None, None, None)
+      val definition = StringDefinition(None, None, None, None, None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 

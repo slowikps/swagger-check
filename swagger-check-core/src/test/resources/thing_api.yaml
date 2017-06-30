@@ -54,17 +54,13 @@ paths:
             location:
               type: string
               format: url
-  /things/{id}:
+  /things/{iddd}:
     get:
       summary: Get a thing
       produces:
         - application/json
       parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
-          format: uuid
+        - $ref: "#/parameters/Iddd"
         - name: x-flow-id
           in: header
           required: true
@@ -224,3 +220,11 @@ definitions:
             type: string
           lastName:
             type: string
+parameters:
+  Iddd:
+    name: iddd
+    in: path
+    required: true
+    type: string
+    minLength: 4
+    maxLength: 8

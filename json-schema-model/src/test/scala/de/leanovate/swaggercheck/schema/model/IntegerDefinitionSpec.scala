@@ -12,7 +12,7 @@ class IntegerDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       val node = TestNode(integer = Some(BigInt(Long.MaxValue) + 12345))
       val schema = mock[Schema]
 
-      val definition = IntegerDefinition(None, None, None)
+      val definition = IntegerDefinition(None, None, None, false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
     }
@@ -26,7 +26,7 @@ class IntegerDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       when(schema.findIntegerFormat("theformat")).thenReturn(Some(format))
       when(format.validate(path, BigInt(12345))).thenReturn(ValidationResult.success)
 
-      val definition = IntegerDefinition(Some("theformat"), None, None)
+      val definition = IntegerDefinition(Some("theformat"), None, None, false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
 
@@ -39,7 +39,7 @@ class IntegerDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       val node = TestNode(integer = Some(BigInt(12345)))
       val schema = mock[Schema]
 
-      val definition = IntegerDefinition(None, Some(BigInt(123456)), None)
+      val definition = IntegerDefinition(None, Some(BigInt(123456)), None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -52,7 +52,7 @@ class IntegerDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       val node = TestNode(integer = Some(BigInt(123456)))
       val schema = mock[Schema]
 
-      val definition = IntegerDefinition(None, None, Some(BigInt(12345)))
+      val definition = IntegerDefinition(None, None, Some(BigInt(12345)), false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -65,7 +65,7 @@ class IntegerDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers
       val node = TestNode()
       val schema = mock[Schema]
 
-      val definition = IntegerDefinition(None, None, None)
+      val definition = IntegerDefinition(None, None, None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 

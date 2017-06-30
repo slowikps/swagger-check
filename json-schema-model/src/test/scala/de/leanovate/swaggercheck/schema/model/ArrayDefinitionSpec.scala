@@ -11,7 +11,7 @@ class ArrayDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       val node = TestNode(array = Some(Seq(TestNode(), TestNode())))
       val schema = mock[Schema]
 
-      val definition = ArrayDefinition(None, None, None)
+      val definition = ArrayDefinition(None, None, None, false)
 
       val result = definition.validate(schema, path, node)
 
@@ -29,7 +29,7 @@ class ArrayDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       when(itemDefinition.validate(schema, path.index(0), item1)).thenReturn(ValidationSuccess)
       when(itemDefinition.validate(schema, path.index(1), item2)).thenReturn(ValidationSuccess)
 
-      val definition = ArrayDefinition(None, None, Some(itemDefinition))
+      val definition = ArrayDefinition(None, None, Some(itemDefinition), false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
 
@@ -48,7 +48,7 @@ class ArrayDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       when(itemDefinition.validate(schema, path.index(0), item1)).thenReturn(ValidationResult.error("error"))
       when(itemDefinition.validate(schema, path.index(1), item2)).thenReturn(ValidationSuccess)
 
-      val definition = ArrayDefinition(None, None, Some(itemDefinition))
+      val definition = ArrayDefinition(None, None, Some(itemDefinition), false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -61,7 +61,7 @@ class ArrayDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       val node = TestNode(array = Some(Seq(TestNode(), TestNode())))
       val schema = mock[Schema]
 
-      val definition = ArrayDefinition(Some(3), None, None)
+      val definition = ArrayDefinition(Some(3), None, None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -74,7 +74,7 @@ class ArrayDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       val node = TestNode(array = Some(Seq(TestNode(), TestNode())))
       val schema = mock[Schema]
 
-      val definition = ArrayDefinition(None, Some(1), None)
+      val definition = ArrayDefinition(None, Some(1), None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -87,7 +87,7 @@ class ArrayDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       val node = TestNode()
       val schema = mock[Schema]
 
-      val definition = ArrayDefinition(None, None, None)
+      val definition = ArrayDefinition(None, None, None, false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 

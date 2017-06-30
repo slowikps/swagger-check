@@ -6,7 +6,8 @@ import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
 case class IntegerDefinition(
                               format: Option[String],
                               minimum: Option[BigInt],
-                              maximum: Option[BigInt]
+                              maximum: Option[BigInt],
+                              readOnly: Boolean
                             ) extends Definition {
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult = {

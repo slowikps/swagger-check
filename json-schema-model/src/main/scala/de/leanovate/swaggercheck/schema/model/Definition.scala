@@ -39,7 +39,8 @@ object Definition {
              additionalProperties: Option[Either[Boolean, Definition]],
              required: Option[Set[String]],
              ref: Option[String],
-             uniqueItems: Option[Boolean]
+             uniqueItems: Option[Boolean],
+             readOnly: Option[Boolean]
            ): Definition = {
     (allOf, oneOf) match {
       case (Some(definitions), _) =>
@@ -48,12 +49,12 @@ object Definition {
         OneOfDefinition(definitions)
       case _ =>
         schemaType match {
-          case Some("object") => ObjectDefinition(required, properties, additionalProperties.getOrElse(Left(true)))
-          case Some("array") => ArrayDefinition(minItems, maxItems, items)
-          case Some("string") => StringDefinition(format, minLength, maxLength, pattern, enum)
-          case Some("integer") => IntegerDefinition(format, minimum.map(_.longValue()), maximum.map(_.longValue()))
-          case Some("number") => NumberDefinition(format, minimum.map(_.doubleValue()), maximum.map(_.doubleValue()))
-          case Some("boolean") => BooleanDefinition
+          case Some("object") => ObjectDefinition(required, properties, additionalProperties.getOrElse(Left(true)), readOnly.getOrElse(false))
+          case Some("array") => ArrayDefinition(minItems, maxItems, items, readOnly.getOrElse(false))
+          case Some("string") => StringDefinition(format, minLength, maxLength, pattern, enum, readOnly.getOrElse(false))
+          case Some("integer") => IntegerDefinition(format, minimum.map(_.longValue()), maximum.map(_.longValue()), readOnly.getOrElse(false))
+          case Some("number") => NumberDefinition(format, minimum.map(_.doubleValue()), maximum.map(_.doubleValue()), readOnly.getOrElse(false))
+          case Some("boolean") => BooleanDefinition(readOnly.getOrElse(false))
           case _ if ref.isDefined => ReferenceDefinition(ref.get)
           case _ => EmptyDefinition
         }

@@ -14,7 +14,7 @@ object GeneratableDefinition {
   implicit def toGeneratable(definition: Definition): GeneratableDefinition = definition match {
     case definition: AllOfDefinition => GeneratableAllOf(definition)
     case definition: ArrayDefinition => GeneratableArray(definition)
-    case BooleanDefinition => GeneratableBoolean
+    case BooleanDefinition(readOnly) => GeneratableBoolean(readOnly)
     case EmptyDefinition => GeneratableEmpty
     case definition: IntegerDefinition => GeneratableInteger(definition)
     case definition: NumberDefinition => GeneratableNumber(definition)
