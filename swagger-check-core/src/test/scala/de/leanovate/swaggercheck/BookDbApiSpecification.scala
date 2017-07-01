@@ -4,10 +4,11 @@ import java.util.UUID
 
 import de.leanovate.swaggercheck.fixtures.bookdb.Author
 import de.leanovate.swaggercheck.schema.ValidationResultToProp._
+import de.leanovate.swaggercheck.shrinkable.CheckJsValue
 import de.leanovate.swaggercheck.simple._
 import org.scalacheck.Prop.{BooleanOperators, forAll}
 import org.scalacheck.{Arbitrary, Properties, Shrink}
-import play.api.libs.json.{JsSuccess, Json}
+import play.api.libs.json.Json
 
 object BookDbApiSpecification extends Properties("BookDB API") {
   val swaggerChecks = SwaggerChecks(getClass.getClassLoader.getResourceAsStream("bookdb_api.yaml"))
@@ -26,8 +27,10 @@ object BookDbApiSpecification extends Properties("BookDB API") {
     val verifier = swaggerChecks.jsonVerifier("Author")
 
     forAll(swaggerChecks.jsonGenerator("Author")) {
-      json =>
-        Json.parse(json.minified).validate[Author].isSuccess :| "Json can be deserialized" &&
+      (json: CheckJsValue) =>
+        val author = Json.parse(json.minified).validate[Author]
+        author.isSuccess :| "Json can be deserialized" &&
+          author.get.id.isEmpty :| "readOnly property is not generated" &&
           verifier.verify(json.minified).isSuccess :| "Json conforms to own schema" &&
           Shrink.shrink(json).forall {
             shrinked =>
@@ -44,6 +47,7 @@ object BookDbApiSpecification extends Properties("BookDB API") {
         (request.method == "POST") :| "Method" &&
           (request.path == "/v1/authors") :| "Path" &&
           request.body.isDefined :| "Has body" &&
+          Json.parse(request.body.get.minified).as[Author].id.isEmpty :| "readOnly property is not generated" &&
           verifier.verify(request.body.get.minified).isSuccess :| "Body is author"
     }
   }
