@@ -18,7 +18,6 @@ object BookDbApiSpecification extends Properties("BookDB API") {
     forAll(Arbitrary.arbitrary[Author]) {
       author: Author =>
         val json = Json.stringify(Json.toJson(author))
-
         verifier.verify(json)
     }
   }

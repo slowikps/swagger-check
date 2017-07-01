@@ -6,6 +6,9 @@ import de.leanovate.swaggercheck.shrinkable.{CheckJsNull, CheckJsValue}
 import org.scalacheck.Gen
 
 object GeneratableEmpty extends GeneratableDefinition {
+
+  val readOnly = false
+
   override def generate(schema: GeneratableSchema): Gen[CheckJsValue] = Gen.const(CheckJsNull)
 
   override def validate[T](schema: Schema, path: JsonPath, node: T)

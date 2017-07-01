@@ -16,6 +16,8 @@ trait Definition {
     * @return validation result
     */
   def validate[T](schema: Schema, path: JsonPath, node: T)(implicit nodeAdapter: NodeAdapter[T]): ValidationResult
+
+  def readOnly: Boolean
 }
 
 object Definition {
@@ -44,9 +46,9 @@ object Definition {
            ): Definition = {
     (allOf, oneOf) match {
       case (Some(definitions), _) =>
-        AllOfDefinition(definitions)
+        AllOfDefinition(definitions, readOnly.getOrElse(false))
       case (_, Some(definitions)) =>
-        OneOfDefinition(definitions)
+        OneOfDefinition(definitions, readOnly.getOrElse(false))
       case _ =>
         schemaType match {
           case Some("object") => ObjectDefinition(required, properties, additionalProperties.getOrElse(Left(true)), readOnly.getOrElse(false))
@@ -55,7 +57,7 @@ object Definition {
           case Some("integer") => IntegerDefinition(format, minimum.map(_.longValue()), maximum.map(_.longValue()), readOnly.getOrElse(false))
           case Some("number") => NumberDefinition(format, minimum.map(_.doubleValue()), maximum.map(_.doubleValue()), readOnly.getOrElse(false))
           case Some("boolean") => BooleanDefinition(readOnly.getOrElse(false))
-          case _ if ref.isDefined => ReferenceDefinition(ref.get)
+          case _ if ref.isDefined => ReferenceDefinition(ref.get, readOnly.getOrElse(false))
           case _ => EmptyDefinition
         }
     }

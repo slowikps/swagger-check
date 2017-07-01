@@ -2,14 +2,14 @@ package de.leanovate.swaggercheck.schema.gen
 
 import de.leanovate.swaggercheck.schema.gen.GeneratableDefinition._
 import de.leanovate.swaggercheck.schema.gen.formats.{GeneratableFormat, GeneratableIntegerFormats, GeneratableNumberFormats, GeneratableStringFormats}
-import de.leanovate.swaggercheck.schema.model.{DefaultSchema, Definition}
+import de.leanovate.swaggercheck.schema.model.{RootSwaggerSchema, Definition}
 import de.leanovate.swaggercheck.shrinkable.CheckJsValue
 import org.scalacheck.Gen
 
 import scala.language.implicitConversions
 
 case class GeneratableDefaultSchema(
-                                     schema: DefaultSchema,
+                                     schema: RootSwaggerSchema,
                                      randomAdditionalFields: Boolean = false,
                                      maxItems: Int = 10,
                                      stringFormats: Map[String, GeneratableFormat[String]] = GeneratableStringFormats.defaultFormats,
@@ -35,5 +35,5 @@ case class GeneratableDefaultSchema(
 }
 
 object GeneratableDefaultSchema {
-  implicit def toGeneratable(schema: DefaultSchema): GeneratableDefaultSchema = GeneratableDefaultSchema(schema)
+  implicit def toGeneratable(schema: RootSwaggerSchema): GeneratableDefaultSchema = GeneratableDefaultSchema(schema)
 }

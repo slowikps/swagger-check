@@ -8,6 +8,8 @@ import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
 case class Parameter(name: String, in:String, required: Boolean, definition: Definition) extends Definition {
 
   override def validate[T](schema: Schema, path: JsonPath, node: T)(implicit nodeAdapter: NodeAdapter[T]): ValidationResult = definition.validate(schema, path, node)
+
+  val readOnly = definition.readOnly
 }
 
 object Parameter {

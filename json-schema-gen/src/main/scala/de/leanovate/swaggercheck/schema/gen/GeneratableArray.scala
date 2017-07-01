@@ -9,6 +9,9 @@ import org.scalacheck.Gen
 case class GeneratableArray(
                              definition: ArrayDefinition
                            ) extends GeneratableDefinition {
+
+  val readOnly = definition.readOnly
+
   override def validate[T](model: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult = definition.validate(model, path, node)
 

@@ -31,6 +31,7 @@ class DefinitionBuilder @JsonCreator()(
                                         @JsonProperty("additionalProperties") additionalPropertiesNode: Option[JsonNode] = None,
                                         @JsonProperty("required") required: Option[Set[String]] = None,
                                         @JsonProperty("$ref") ref: Option[String] = None,
+                                        @JsonProperty("readOnly") readOnly: Option[Boolean] = None,
                                         @JsonProperty("uniqueItems") uniqueItems: Option[Boolean] = None) {
   val additionalProperties = additionalPropertiesNode.map {
     case node if node.isBoolean => Left(node.isBinary)
@@ -58,7 +59,8 @@ class DefinitionBuilder @JsonCreator()(
       additionalProperties,
       required,
       ref,
-      uniqueItems
+      uniqueItems,
+      readOnly
     )
   }
 }

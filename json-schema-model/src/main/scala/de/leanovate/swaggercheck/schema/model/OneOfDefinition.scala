@@ -7,7 +7,7 @@ import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
   *
   * Will be valid if one elements is valid.
   */
-case class OneOfDefinition(definitions: Seq[Definition]) extends Definition {
+case class OneOfDefinition(definitions: Seq[Definition], readOnly: Boolean) extends Definition {
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult = {
     val results = definitions.map(_.validate(schema, path, node))

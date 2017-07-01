@@ -6,37 +6,37 @@ import org.scalacheck.Properties
 
 object GeneratableStringSpecification extends Properties("GeneratableString") with DefinitionChecks {
   property("any generate are valid") = {
-    val definition = StringDefinition(None, None, None, None, None)
+    val definition = StringDefinition(None, None, None, None, None, false)
 
     checkDefinition(definition)
   }
 
   property("generate with format are valid") = {
-    val definition = StringDefinition(Some("uuid"), None, None, None, None)
+    val definition = StringDefinition(Some("uuid"), None, None, None, None, false)
 
     checkDefinition(definition)
   }
 
   property("generate with minLength are valid") = {
-    val definition = StringDefinition(None, Some(10), None, None, None)
+    val definition = StringDefinition(None, Some(10), None, None, None, false)
 
     checkDefinition(definition)
   }
 
   property("generate with maxLength are valid") = {
-    val definition = StringDefinition(None, None, Some(100), None, None)
+    val definition = StringDefinition(None, None, Some(100), None, None, false)
 
     checkDefinition(definition)
   }
 
   property("generate with pattern are valid") = {
-    val definition = StringDefinition(None, None, None, Some("[a-zA-Z0-9\\.]+@[a-z]+\\.[a-z]+"), None)
+    val definition = StringDefinition(None, None, None, Some("[a-zA-Z0-9\\.]+@[a-z]+\\.[a-z]+"), None, false)
 
     checkDefinition(definition)
   }
 
   property("generate with enum are valid") = {
-    val definition = StringDefinition(None, None, None, None, Some("foo" :: "bar" :: "grah" :: Nil))
+    val definition = StringDefinition(None, None, None, None, Some("foo" :: "bar" :: "grah" :: Nil), false)
 
     checkDefinition(definition)
   }

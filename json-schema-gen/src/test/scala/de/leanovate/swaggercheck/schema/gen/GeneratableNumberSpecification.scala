@@ -7,13 +7,13 @@ import org.scalacheck.Properties
 object GeneratableNumberSpecification extends Properties("GeneratableNumber") with DefinitionChecks{
 
   property("any generate are valid") = {
-    val definition = NumberDefinition(None, None, None)
+    val definition = NumberDefinition(None, None, None, false)
 
     checkDefinition(definition)
   }
 
   property("generate with format are valid") = {
-    val definition = NumberDefinition(Some("double"), None, None)
+    val definition = NumberDefinition(Some("double"), None, None, false)
 
     checkDefinition(definition)
   }

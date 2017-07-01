@@ -1,15 +1,15 @@
 package de.leanovate.swaggercheck.schema.play
 
-import de.leanovate.swaggercheck.schema.model.DefaultSchema
+import de.leanovate.swaggercheck.schema.model.RootSwaggerSchema
 import de.leanovate.swaggercheck.schema.play.Implicits._
 import de.leanovate.swaggercheck.schema.play.model.ProductModel
 import org.scalatest.{MustMatchers, WordSpec}
 import play.api.libs.json.{JsError, Json, Reads}
 
 class ValidatingReadsSpec extends WordSpec with MustMatchers {
-  val schema: DefaultSchema = Json
+  val schema: RootSwaggerSchema = Json
     .parse(getClass.getClassLoader.getResourceAsStream("schema/simple1.json"))
-    .as[DefaultSchema]
+    .as[RootSwaggerSchema]
 
   val atLeastOneTagRead: Reads[Seq[ProductModel]] =
     ValidatingReads.validating[Seq[ProductModel]](schema)

@@ -10,10 +10,10 @@ class SchemaModuleSpec extends WordSpec with MustMatchers {
 
   "SchemaModule" should {
     "deserialize object_definition" in {
-      val ObjectDefinition(required, properties, additionalProperties) = mapper.readValue(getClass.getClassLoader.getResource("object_definition.json"), classOf[Definition])
+      val ObjectDefinition(required, properties, additionalProperties, false) = mapper.readValue(getClass.getClassLoader.getResource("object_definition.json"), classOf[Definition])
 
       required mustBe Some(Set("field1"))
-      properties mustBe Some(Map("field1" -> StringDefinition(None, None, None, None, None)))
+      properties mustBe Some(Map("field1" -> StringDefinition(None, None, None, None, None, false)))
       additionalProperties mustBe Left(true)
     }
   }

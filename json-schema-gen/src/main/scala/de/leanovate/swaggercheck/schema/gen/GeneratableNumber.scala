@@ -10,6 +10,8 @@ import scala.util.Try
 case class GeneratableNumber(
                               definition: NumberDefinition
                             ) extends GeneratableDefinition {
+  val readOnly = definition.readOnly
+
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult =
     definition.validate(schema, path, node)

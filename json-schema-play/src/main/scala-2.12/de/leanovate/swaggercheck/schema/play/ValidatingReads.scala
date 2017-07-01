@@ -5,7 +5,7 @@ import de.leanovate.swaggercheck.schema.play.Implicits._
 import play.api.libs.json._
 
 object ValidatingReads {
-  def validating[T](schema: DefaultSchema)(implicit underlying: Reads[T]): Reads[T] = new Reads[T] {
+  def validating[T](schema: RootSwaggerSchema)(implicit underlying: Reads[T]): Reads[T] = new Reads[T] {
     override def reads(json: JsValue): JsResult[T] = schema.validate(json) match {
       case ValidationSuccess => underlying.reads(json)
       case ValidationFailure(failures) => JsError(JsonValidationError(failures))

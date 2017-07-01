@@ -8,19 +8,23 @@ import scala.language.implicitConversions
 
 trait GeneratableDefinition extends Definition {
   def generate(schema: GeneratableSchema): Gen[CheckJsValue]
+
+  def readOnly: Boolean
 }
 
 object GeneratableDefinition {
-  implicit def toGeneratable(definition: Definition): GeneratableDefinition = definition match {
-    case definition: AllOfDefinition => GeneratableAllOf(definition)
-    case definition: ArrayDefinition => GeneratableArray(definition)
-    case BooleanDefinition(readOnly) => GeneratableBoolean(readOnly)
-    case EmptyDefinition => GeneratableEmpty
-    case definition: IntegerDefinition => GeneratableInteger(definition)
-    case definition: NumberDefinition => GeneratableNumber(definition)
-    case definition: ObjectDefinition => GeneratableObject(definition)
-    case definition: OneOfDefinition => GeneratableOneOf(definition)
-    case definition: StringDefinition => GeneratableString(definition)
-    case definition: ReferenceDefinition => GeneratableReference(definition)
-  }
+  implicit def toGeneratable(definition: Definition): GeneratableDefinition =
+    if (definition.readOnly) GeneratableEmpty
+    else definition match {
+      case definition: AllOfDefinition => GeneratableAllOf(definition)
+      case definition: ArrayDefinition => GeneratableArray(definition)
+      case BooleanDefinition(readOnly) => GeneratableBoolean(readOnly)
+      case EmptyDefinition => GeneratableEmpty
+      case definition: IntegerDefinition => GeneratableInteger(definition)
+      case definition: NumberDefinition => GeneratableNumber(definition)
+      case definition: ObjectDefinition => GeneratableObject(definition)
+      case definition: OneOfDefinition => GeneratableOneOf(definition)
+      case definition: StringDefinition => GeneratableString(definition)
+      case definition: ReferenceDefinition => GeneratableReference(definition)
+    }
 }

@@ -1,6 +1,6 @@
 package de.leanovate.swaggercheck.schema.play
 
-import de.leanovate.swaggercheck.schema.model.DefaultSchema
+import de.leanovate.swaggercheck.schema.model.RootSwaggerSchema
 import de.leanovate.swaggercheck.schema.play.model.ProductModel
 import de.leanovate.swaggercheck.shrinkable.CheckJsValue
 import org.scalacheck.Properties
@@ -10,7 +10,7 @@ import de.leanovate.swaggercheck.schema.play.Implicits._
 import de.leanovate.swaggercheck.schema.gen.GeneratableDefaultSchema._
 
 object ValidatingReadsSpecification extends Properties("ValidatingReads") {
-  val schema = Json.parse(getClass.getClassLoader.getResourceAsStream("schema/simple1.json")).as[DefaultSchema]
+  val schema = Json.parse(getClass.getClassLoader.getResourceAsStream("schema/simple1.json")).as[RootSwaggerSchema]
 
   val valdiatingReads = ValidatingReads.validating[Seq[ProductModel]](schema)
 

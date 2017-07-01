@@ -8,6 +8,9 @@ import org.scalacheck.{Arbitrary, Gen}
 case class GeneratableInteger(
                                definition: IntegerDefinition
                              ) extends GeneratableDefinition {
+
+  val readOnly = definition.readOnly
+
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult =
     definition.validate(schema, path, node)

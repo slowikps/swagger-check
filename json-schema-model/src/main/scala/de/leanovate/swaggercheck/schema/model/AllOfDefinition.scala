@@ -7,7 +7,7 @@ import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
   *
   * Will be only valid if all elements are valid.
   */
-case class AllOfDefinition(definitions: Seq[Definition]) extends Definition {
+case class AllOfDefinition(definitions: Seq[Definition], readOnly: Boolean) extends Definition {
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult = {
     definitions.foldLeft(ValidationResult.success) {

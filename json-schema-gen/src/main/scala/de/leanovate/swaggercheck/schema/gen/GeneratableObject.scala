@@ -11,6 +11,9 @@ import scala.collection.JavaConversions._
 case class GeneratableObject(
                               definition: ObjectDefinition
                             ) extends GeneratableDefinition {
+
+  val readOnly = definition.readOnly
+
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult =
     definition.validate(schema, path, node)

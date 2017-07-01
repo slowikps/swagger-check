@@ -18,7 +18,7 @@ class OneOfDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       when(definition2.validate(schema, path, node)).thenReturn(ValidationResult.success)
       when(definition3.validate(schema, path, node)).thenReturn(ValidationResult.error("error2"))
 
-      val definition = OneOfDefinition(Seq(definition1, definition2, definition3))
+      val definition = OneOfDefinition(Seq(definition1, definition2, definition3), false)
 
       definition.validate(schema, path, node) mustBe ValidationSuccess
 
@@ -39,7 +39,7 @@ class OneOfDefinitionSpec extends WordSpec with MockitoSugar with MustMatchers {
       when(definition2.validate(schema, path, node)).thenReturn(ValidationResult.error("error2"))
       when(definition3.validate(schema, path, node)).thenReturn(ValidationResult.error("error3"))
 
-      val definition = OneOfDefinition(Seq(definition1, definition2, definition3))
+      val definition = OneOfDefinition(Seq(definition1, definition2, definition3), false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 

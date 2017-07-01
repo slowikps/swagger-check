@@ -1,7 +1,7 @@
 package de.leanovate.swaggercheck.schema.play
 
 import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
-import de.leanovate.swaggercheck.schema.model.{DefaultSchema, Definition, Parameter}
+import de.leanovate.swaggercheck.schema.model.{RootSwaggerSchema, Definition, Parameter}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
@@ -61,7 +61,7 @@ object Implicits {
       (JsPath \ "uniqueItems").readNullable[Boolean] and
       (JsPath \ "enum").readNullable[List[String]]) (Parameter.build _)
 
-  implicit lazy val schemaReads: Reads[DefaultSchema] =
+  implicit lazy val schemaReads: Reads[RootSwaggerSchema] =
     ((JsPath \ "type").readNullable[String] and
       (JsPath \ "allOf").readNullable[Seq[Definition]] and
       (JsPath \ "enum").readNullable[List[String]] and
@@ -83,7 +83,7 @@ object Implicits {
       (JsPath \ "$ref").readNullable[String] and
       (JsPath \ "uniqueItems").readNullable[Boolean] and
       (JsPath \ "definitions").readNullable[Map[String, Definition]] and
-      (JsPath \ "parameters").readNullable[Map[String, Parameter]]) (DefaultSchema.build _)
+      (JsPath \ "parameters").readNullable[Map[String, Parameter]]) (RootSwaggerSchema.build _)
 
   implicit object Adapter extends NodeAdapter[JsValue] {
     override def asArray(node: JsValue): Option[Seq[JsValue]] =

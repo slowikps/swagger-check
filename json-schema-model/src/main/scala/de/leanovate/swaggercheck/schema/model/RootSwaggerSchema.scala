@@ -3,7 +3,7 @@ package de.leanovate.swaggercheck.schema.model
 import de.leanovate.swaggercheck.schema.adapter.NodeAdapter
 import de.leanovate.swaggercheck.schema.model.formats.{IntegerFormats, NumberFormats, StringFormats, ValueFormat}
 
-case class DefaultSchema(
+case class RootSwaggerSchema(
                           root: Definition,
                           definitions: Map[String, Definition],
                           parameters: Map[String, Parameter],
@@ -27,26 +27,26 @@ case class DefaultSchema(
   /**
     * Add a self-defined string format.
     */
-  def withStringFormats(formats: (String, ValueFormat[String])*): DefaultSchema =
+  def withStringFormats(formats: (String, ValueFormat[String])*): RootSwaggerSchema =
     copy(stringFormats = stringFormats ++ Map(formats: _*))
 
   /**
     * Add a self-defined integer format.
     */
-  def withIntegerFormats(formats: (String, ValueFormat[BigInt])*): DefaultSchema =
+  def withIntegerFormats(formats: (String, ValueFormat[BigInt])*): RootSwaggerSchema =
     copy(integerFormats = integerFormats ++ Map(formats: _*))
 
   /**
     * Add a self-defined number format.
     */
-  def withNumberFormats(formats: (String, ValueFormat[BigDecimal])*): DefaultSchema =
+  def withNumberFormats(formats: (String, ValueFormat[BigDecimal])*): RootSwaggerSchema =
     copy(numberFormats = numberFormats ++ Map(formats: _*))
 
   def validate[T](node: T)(implicit nodeAdapter: NodeAdapter[T]): ValidationResult =
     root.validate(this, JsonPath(), node)
 }
 
-object DefaultSchema {
+object RootSwaggerSchema {
   def build(
              schemaType: Option[String],
              allOf: Option[Seq[Definition]],
@@ -70,8 +70,8 @@ object DefaultSchema {
              uniqueItems: Option[Boolean],
              definitions: Option[Map[String, Definition]],
              parameters: Option[Map[String, Parameter]]
-           ): DefaultSchema = {
-    DefaultSchema(
+           ): RootSwaggerSchema = {
+    RootSwaggerSchema(
       Definition.build(schemaType, allOf, enum, exclusiveMinimum, exclusiveMaximum, format, items, minItems, maxItems,
         minimum, maximum, minLength, maxLength, oneOf, pattern, properties, additionalProperties, required, ref,
         uniqueItems, Some(false)),

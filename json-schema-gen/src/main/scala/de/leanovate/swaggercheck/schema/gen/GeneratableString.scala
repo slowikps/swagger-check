@@ -9,6 +9,9 @@ import org.scalacheck.Gen
 case class GeneratableString(
                               definition: StringDefinition
                             ) extends GeneratableDefinition {
+
+  val readOnly = definition.readOnly
+
   override def validate[T](schema: Schema, path: JsonPath, node: T)
                           (implicit nodeAdapter: NodeAdapter[T]): ValidationResult =
     definition.validate(schema, path, node)

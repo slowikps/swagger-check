@@ -15,7 +15,7 @@ class ReferenceDefinitionSpec extends WordSpec with MockitoSugar with MustMatche
       when(schema.findByRef("reference")).thenReturn(Some(referencedDefinition))
       when(referencedDefinition.validate(schema, path, node)).thenReturn(ValidationResult.error("error1"))
 
-      val definition = ReferenceDefinition("reference")
+      val definition = ReferenceDefinition("reference", false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
@@ -30,7 +30,7 @@ class ReferenceDefinitionSpec extends WordSpec with MockitoSugar with MustMatche
 
       when(schema.findByRef("reference")).thenReturn(None)
 
-      val definition = ReferenceDefinition("reference")
+      val definition = ReferenceDefinition("reference", false)
 
       val ValidationFailure(result) = definition.validate(schema, path, node)
 
