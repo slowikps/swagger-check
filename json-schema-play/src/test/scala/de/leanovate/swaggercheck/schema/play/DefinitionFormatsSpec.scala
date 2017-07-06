@@ -11,10 +11,10 @@ class DefinitionFormatsSpec extends WordSpec with MustMatchers {
       val json = Json.parse(getClass.getClassLoader.getResourceAsStream("object_definition.json"))
 
       val JsSuccess(definition, _) = json.validate[Definition]
-      val ObjectDefinition(required, properties, additionalProperties) = definition
+      val ObjectDefinition(required, properties, additionalProperties, false) = definition
 
       required mustBe Some(Set("field1"))
-      properties mustBe Some(Map("field1" -> StringDefinition(None, None, None, None, None)))
+      properties mustBe Some(Map("field1" -> StringDefinition(None, None, None, None, None, false)))
       additionalProperties mustBe Left(true)
     }
 

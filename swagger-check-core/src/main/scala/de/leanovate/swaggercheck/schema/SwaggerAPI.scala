@@ -54,7 +54,6 @@ class SwaggerAPIBuilder @JsonCreator()(
   def build(): SwaggerAPI = {
     val defaultConsumes = consumes.map(_.toSet).getOrElse(Set.empty)
     val defaultProduces = produces.map(_.toSet).getOrElse(Set.empty)
-    println(globalParameters)
     SwaggerAPI(basePath,
       paths.getOrElse(Map.empty).map {
         case (path, pathDefinition) =>

@@ -38,7 +38,8 @@ object Implicits {
       (additionalPropertiesBoolean | additionalPropertiesDefinition) and
       (JsPath \ "required").readNullable[Set[String]] and
       (JsPath \ "$ref").readNullable[String] and
-      (JsPath \ "uniqueItems").readNullable[Boolean]) (Definition.build _)
+      (JsPath \ "uniqueItems").readNullable[Boolean] and
+      (JsPath \ "readOnly").readNullable[Boolean]) (Definition.build _)
 
   implicit lazy val parameterReads: Reads[Parameter] =
   ((JsPath \ "name").read[String] and

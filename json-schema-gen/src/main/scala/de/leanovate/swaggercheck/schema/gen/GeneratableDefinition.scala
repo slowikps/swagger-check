@@ -14,8 +14,7 @@ trait GeneratableDefinition extends Definition {
 
 object GeneratableDefinition {
   implicit def toGeneratable(definition: Definition): GeneratableDefinition =
-    if (definition.readOnly) GeneratableEmpty
-    else definition match {
+    definition match {
       case definition: AllOfDefinition => GeneratableAllOf(definition)
       case definition: ArrayDefinition => GeneratableArray(definition)
       case BooleanDefinition(readOnly) => GeneratableBoolean(readOnly)

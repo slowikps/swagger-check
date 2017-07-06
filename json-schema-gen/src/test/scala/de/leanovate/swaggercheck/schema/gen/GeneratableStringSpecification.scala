@@ -40,4 +40,10 @@ object GeneratableStringSpecification extends Properties("GeneratableString") wi
 
     checkDefinition(definition)
   }
+
+  property("generate with readOnly definition is valid") = {
+    val definition = StringDefinition(None, None, None, None, Some("foo" :: "bar" :: "grah" :: Nil), true)
+
+    checkDefinition(definition)
+  }
 }

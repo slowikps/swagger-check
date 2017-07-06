@@ -17,7 +17,8 @@ case class GeneratableString(
     definition.validate(schema, path, node)
 
   override def generate(schema: GeneratableSchema): Gen[CheckJsValue] = {
-    (definition.enum, definition.pattern) match {
+    if(readOnly) GeneratableEmpty.generate(schema)
+    else (definition.enum, definition.pattern) match {
       case (Some(one :: Nil), _) => Gen.const(CheckJsString.formatted(one))
       case (Some(first :: second :: rest), _) => Gen.oneOf(first, second, rest: _ *).map(CheckJsString.formatted)
       case (_, Some(regex)) => Generators.regexMatch(regex).map(CheckJsString.formatted)
